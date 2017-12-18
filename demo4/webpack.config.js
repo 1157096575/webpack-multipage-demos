@@ -1,6 +1,10 @@
 var htmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin'); //把 CSS 分离成文件
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 var path = require('path');
+let pathsToClean = [
+  'dist',
+];
 
 module.exports = {
   devtool: 'eval-source-map',
@@ -110,6 +114,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(pathsToClean),
     new htmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
