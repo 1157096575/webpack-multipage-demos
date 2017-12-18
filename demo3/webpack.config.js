@@ -11,7 +11,7 @@ module.exports = {
     filename: 'js/[name].bundle.js'
   },
   devServer: {
-    contentBase: "./index.html",//本地服务器所加载的页面所在的目录
+    contentBase: "./",//本地服务器所加载的页面所在的目录
     historyApiFallback: true,//不跳转
     inline: true//实时刷新
   },
