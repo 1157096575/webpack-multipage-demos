@@ -1,8 +1,5 @@
 .DS_Store
 node_modules/
-demo1/node_modules/
-demo2/node_modules/
-demo3/node_modules/
 .history/
 npm-debug.log
 yarn-error.log
