@@ -1,5 +1,4 @@
 var htmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin'); //把 CSS 分离成文件
 var path = require('path');
 
 module.exports = {
@@ -34,6 +33,13 @@ module.exports = {
           {loader:'style-loader'},
           {loader:'css-loader'},
           {loader:'postcss-loader',options: {
+            /*plugins: function () {
+              return [
+                require('autoprefixer')({
+                  browsers: ['last 5 versions']
+                })
+              ]
+            }*/
             plugins: [
               require('postcss-import'),
               require('autoprefixer')
@@ -42,22 +48,7 @@ module.exports = {
           }},
           {loader:'less-loader'},
           {loader:'sass-loader'}
-        ],
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {loader:'css-loader', options: {url: false}}, //css路径不变
-            {loader:'postcss-loader',options: {
-              plugins: [
-                require('postcss-import'),
-                require('autoprefixer')
-              ],
-              browser: ['last 5 versions']
-            }},
-            {loader:'less-loader'},
-            {loader:'sass-loader'}
-          ]
-        })
+        ]
       },
       {
         test: /\.html$/,
@@ -116,7 +107,6 @@ module.exports = {
         collapseWhitespace: true,
       },*/
       hash: true
-    }),
-    new ExtractTextPlugin('css/index.css')
+    })
   ]
 }
