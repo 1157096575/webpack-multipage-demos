@@ -9,11 +9,12 @@ let pathsToClean = [
 module.exports = {
   devtool: 'eval-source-map',
   entry: {
-    main: './src/app.js'
+    index: './src/js/index.js',
+    demo: './src/js/demo.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].bundle.js'
+    filename: 'js/[name].js'
   },
   devServer: {  //代替webpack -d --watch
     port: 9000,
@@ -123,8 +124,15 @@ module.exports = {
       /*minify: {
         collapseWhitespace: true,
       },*/
+      excludeChunks: ['demo'],
       hash: true
     }),
-    new ExtractTextPlugin('css/index.css')
+    new htmlWebpackPlugin({
+      filename: 'demo.html',
+      template: 'demo.html',
+      chunks: ['demo'],
+      hash: true
+    }),
+    new ExtractTextPlugin('css/[name].css')
   ]
 }

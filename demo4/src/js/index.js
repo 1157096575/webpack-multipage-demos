@@ -1,6 +1,6 @@
-import './css/common.css';
-import Layer from './components/layer/layer.js';
-import url1 from './images/bj.jpg'
+import '../css/index.css';
+import Layer from '../components/layer/layer.js';
+import url1 from '../images/bj.jpg'
 const App = function () {
   const NUM = 1;
   alert(NUM);
@@ -18,7 +18,7 @@ const App = function () {
   //document.getElementById('bgDiv').style.background = 'url(http://static.fy13322.com/front/public/images/dqrcode.png?914052)';
   //document.getElementById('bgDiv').style.background = 'url('+ url1 +')';
   //document.getElementById('bgDiv').style.background = 'url(./images/bj.jpg)';
-  document.getElementById('bgDiv').style.background = 'url('+ require("./images/bj.jpg")+')';
+  document.getElementById('bgDiv').style.background = 'url('+ require("../images/bj.jpg")+')';
 }
 
 new App();
