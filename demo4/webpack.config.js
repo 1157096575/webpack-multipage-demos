@@ -1,6 +1,7 @@
 var htmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin'); //把 CSS 分离成文件
 const CleanWebpackPlugin = require('clean-webpack-plugin'); //清除文件
+const webpack = require('webpack');
 var path = require('path');
 let pathsToClean = [
   'dist',
@@ -14,14 +15,15 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].js'
+    filename: 'js/[name].[hash].js'
   },
   devServer: {  //代替webpack -d --watch
     port: 9000,
     //open: true,
     contentBase: "./",//本地服务器所加载的页面所在的目录
     historyApiFallback: true,//不跳转
-    inline: true//实时刷新
+    inline: true,//实时刷新
+    hot: true
   },
   module: {
     rules: [
@@ -116,6 +118,8 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(pathsToClean),
+    new webpack.NamedModulesPlugin(), //模块热替换
+    new webpack.HotModuleReplacementPlugin(), //模块热替换
     new htmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
@@ -133,6 +137,11 @@ module.exports = {
       chunks: ['demo'],
       hash: true
     }),
-    new ExtractTextPlugin('css/[name].css')
+    new ExtractTextPlugin(
+      {
+        filename: 'css/[name].css',
+        disable: false
+      }
+    )
   ]
 }
