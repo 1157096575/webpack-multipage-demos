@@ -3,6 +3,43 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin'); //把 CSS 分�
 const CleanWebpackPlugin = require('clean-webpack-plugin'); //清除文件
 const webpack = require('webpack');
 var path = require('path');
+var isProd = process.env.NODE_ENV == 'production'; // 环境变量 true or false
+console.log(`+${process.env.NODE_ENV}+`, process.env.NODE_ENV === "production"); //注：set NODE_ENV=production&& webpack 不要留空格
+//开发环境css
+var cssDev = [
+  {loader:'style-loader'},
+  {loader:'css-loader'},
+  {loader:'postcss-loader',options: {
+    plugins: [
+      require('postcss-import'),
+      require('autoprefixer')
+    ],
+    browser: ['last 5 versions']
+  }},
+  {loader:'less-loader'},
+  {loader:'sass-loader'}
+];
+//生产环境css
+var cssProd = ExtractTextPlugin.extract({
+  fallback: 'style-loader',
+  use: [
+    {loader:'css-loader', options: {url: false}}, //css路径不变
+    {loader:'postcss-loader',options: {
+      plugins: [
+        require('postcss-import'),
+        require('autoprefixer')
+      ],
+      browser: ['last 5 versions']
+    }},
+    {loader:'less-loader'},
+    {loader:'sass-loader'}
+  ]
+});
+var cssConfig = isProd ? cssDev : cssDev;
+console.log(process.env.NODE_ENV);
+console.log('isProd');
+console.log(isProd);
+console.log(cssConfig);
 let pathsToClean = [
   'dist',
 ];
@@ -19,7 +56,7 @@ module.exports = {
   },
   devServer: {  //代替webpack -d --watch
     port: 9000,
-    //open: true,
+    open: true,
     contentBase: "./",//本地服务器所加载的页面所在的目录
     historyApiFallback: true,//不跳转
     inline: true,//实时刷新
@@ -39,35 +76,7 @@ module.exports = {
       { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/},
       {
         test: /\.(less|css|sass)$/,
-        //loader: 'style-loader!css-loader'
-        use: [
-          {loader:'style-loader'},
-          {loader:'css-loader'},
-          {loader:'postcss-loader',options: {
-            plugins: [
-              require('postcss-import'),
-              require('autoprefixer')
-            ],
-            browser: ['last 5 versions']
-          }},
-          {loader:'less-loader'},
-          {loader:'sass-loader'}
-        ],
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {loader:'css-loader', options: {url: false}}, //css路径不变
-            {loader:'postcss-loader',options: {
-              plugins: [
-                require('postcss-import'),
-                require('autoprefixer')
-              ],
-              browser: ['last 5 versions']
-            }},
-            {loader:'less-loader'},
-            {loader:'sass-loader'}
-          ]
-        })
+        use: cssProd
       },
       {
         test: /\.html$/,
@@ -140,7 +149,8 @@ module.exports = {
     new ExtractTextPlugin(
       {
         filename: 'css/[name].css',
-        disable: false
+        //disable: false
+        disable: !isProd
       }
     )
   ]
