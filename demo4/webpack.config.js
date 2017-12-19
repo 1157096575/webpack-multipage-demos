@@ -120,7 +120,7 @@ module.exports = {
     new CleanWebpackPlugin(pathsToClean),
     new webpack.NamedModulesPlugin(), //模块热替换
     new webpack.HotModuleReplacementPlugin(), //模块热替换
-    new htmlWebpackPlugin({
+    new htmlWebpackPlugin({ //配置多个 HTML 文件
       filename: 'index.html',
       template: 'index.html',
       inject: 'body',
@@ -131,7 +131,7 @@ module.exports = {
       excludeChunks: ['demo'],
       hash: true
     }),
-    new htmlWebpackPlugin({
+    new htmlWebpackPlugin({  //配置多个 HTML 文件
       filename: 'demo.html',
       template: 'demo.html',
       chunks: ['demo'],
