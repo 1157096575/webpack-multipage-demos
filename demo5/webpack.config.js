@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin'); //把 CSS 分�
 const CleanWebpackPlugin = require('clean-webpack-plugin'); //清除文件
 const webpack = require('webpack');
 var path = require('path');
-var isProd = process.env.NODE_ENV == 'production'; // 环境变量 true or false
+var isProd = process.env.NODE_ENV == 'production'; // 生产环境 vs 开发环境   环境变量 true or false
 console.log(`+${process.env.NODE_ENV}+`, process.env.NODE_ENV === "production"); //注：set NODE_ENV=production&& webpack 不要留空格
 //开发环境css
 var cssDev = [
