@@ -40,7 +40,7 @@ module.exports = {
       {
         test: /\.(less|css|sass)$/,
         //loader: 'style-loader!css-loader'
-        use: [
+        /*use: [
           {loader:'style-loader'},
           {loader:'css-loader'},
           {loader:'postcss-loader',options: {
@@ -52,7 +52,7 @@ module.exports = {
           }},
           {loader:'less-loader'},
           {loader:'sass-loader'}
-        ],
+        ],*/
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
