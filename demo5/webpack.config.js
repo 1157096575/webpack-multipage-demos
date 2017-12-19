@@ -35,11 +35,7 @@ var cssProd = ExtractTextPlugin.extract({
     {loader:'sass-loader'}
   ]
 });
-var cssConfig = isProd ? cssDev : cssDev;
-console.log(process.env.NODE_ENV);
-console.log('isProd');
-console.log(isProd);
-console.log(cssConfig);
+var cssConfig = isProd ? cssProd : cssDev;
 let pathsToClean = [
   'dist',
 ];
@@ -76,7 +72,7 @@ module.exports = {
       { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/},
       {
         test: /\.(less|css|sass)$/,
-        use: cssProd
+        use: cssConfig
       },
       {
         test: /\.html$/,
