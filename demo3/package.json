@@ -14,7 +14,7 @@
     "watch": "webpack -d --watch",
     "webpack": "webpack --config webpack.config.js --progress --display-modules --colors --display-reasons "
   },
-  "author": "",
+  "author": "Isabel",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^7.1.5",

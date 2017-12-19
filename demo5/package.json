@@ -16,7 +16,7 @@
     "dev": "set NODE_ENV=development&&webpack-dev-server",
     "prod": "set NODE_ENV=production&&webpack"
   },
-  "author": "",
+  "author": "Isabel",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^7.1.5",
