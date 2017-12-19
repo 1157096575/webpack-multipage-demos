@@ -41,7 +41,8 @@ let pathsToClean = [
 ];
 
 module.exports = {
-  devtool: 'eval-source-map',
+  //devtool: 'eval-source-map',
+  devtool: 'source-map',  //方便调试
   entry: {
     index: './src/js/index.js',
     demo: './src/js/demo.js'
@@ -55,7 +56,7 @@ module.exports = {
     open: true,
     contentBase: "./",//本地服务器所加载的页面所在的目录
     historyApiFallback: true,//不跳转
-    inline: true,//实时刷新
+    //inline: true,//实时刷新
     hot: true
   },
   module: {
