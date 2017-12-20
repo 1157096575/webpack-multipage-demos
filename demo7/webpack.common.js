@@ -26,7 +26,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            {loader:'css-loader', options: {url: false}}, //css路径不变
+            {loader:'css-loader', options: {url: false}}, //css路径不变(有缺陷)
             {loader:'postcss-loader',options: {
               plugins: [
                 require('postcss-import'),
