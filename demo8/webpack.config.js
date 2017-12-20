@@ -1,3 +1,4 @@
+//分离前的
 var htmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin'); //把 CSS 分离成文件
 const CleanWebpackPlugin = require('clean-webpack-plugin'); //清除文件

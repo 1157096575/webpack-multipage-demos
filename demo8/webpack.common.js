@@ -1,13 +1,11 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin'); //把 CSS 分离成文件
-//const CleanWebpackPlugin = require('clean-webpack-plugin'); //清除文件
 const webpack = require('webpack');
 var path = require('path');
 var glob = require('glob');
 
 //路径定义
 var srcDir = path.resolve(process.cwd(), 'src');
-
 //多入口文件
 var entries = function() {
   var jsDir = path.resolve(__dirname, srcDir+'/static/js/')
@@ -40,15 +38,14 @@ var html_plugins = function () {
   }
   return r
 };
+//插件 用来拓展webpack功能
 var plugins = [
   new webpack.NamedModulesPlugin(), //模块热替换
   new webpack.HotModuleReplacementPlugin(), //模块热替换
   new ExtractTextPlugin(
     {
       filename: 'css/[name].[contenthash].css',
-      //filename: 'css/[name].css',
       disable: false
-      //disable: !isProd
     }
   ),
   new webpack.ProvidePlugin({ //使用 webpack 的一个插件ProvidePlugin 插件来处理像 jQuery 这样的第三方包
@@ -58,11 +55,6 @@ var plugins = [
   })
 ];
 module.exports = {
-  /*entry: {
-    index: './src/static/js/index.js',
-    demo: './src/static/js/demo.js',
-    page: './src/static/js/page.js'
-  },*/
   entry: entries(),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -130,47 +122,5 @@ module.exports = {
       }
     ]
   },
-  /*plugins: [
-    //new CleanWebpackPlugin(['dist']),
-    new webpack.NamedModulesPlugin(), //模块热替换
-    new webpack.HotModuleReplacementPlugin(), //模块热替换
-    new htmlWebpackPlugin({
-      filename: 'index.html',
-      template: './src/index.html',
-      inject: 'body',
-      title: "hello world",
-      //minify: {
-      //  collapseWhitespace: true,
-      //},
-      //excludeChunks: ['demo'],
-      chunks: ['index'],
-      hash: true
-    }),
-    new htmlWebpackPlugin({
-      filename: 'demo.html',
-      template: './src/demo.html',
-      chunks: ['demo'],
-      hash: true
-    }),
-    new htmlWebpackPlugin({
-      filename: 'page.html',
-      template: './src/page.html',
-      //chunks: ['page'],
-      hash: true
-    }),
-    new ExtractTextPlugin(
-      {
-        filename: 'css/[name].[contenthash].css',
-        //filename: 'css/[name].css',
-        disable: false
-        //disable: !isProd
-      }
-    ),
-    new webpack.ProvidePlugin({ //使用 webpack 的一个插件ProvidePlugin 插件来处理像 jQuery 这样的第三方包
-      $: "jquery",
-      jQuery: "jquery",
-      "windows.jQuery": "jquery"
-    })
-  ]*/
   plugins: plugins.concat(html_plugins())
 }
