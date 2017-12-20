@@ -9,7 +9,7 @@ $.fn.changeStyle = function(colorStr){
 $("#hello").changeStyle('blue');
 const App = function () {
   const NUM = 1;
-  alert(NUM);
+  console.log(NUM);
   console.log(Layer);
   var dom = document.getElementById('app');
   var layer = new Layer();
