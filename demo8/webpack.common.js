@@ -3,36 +3,68 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin'); //把 CSS 分�
 const webpack = require('webpack');
 var path = require('path');
 var glob = require('glob');
+var path = require('path');
+var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin; //将公共模块拆出来
+
+function resolve (dir) {
+  return path.join(__dirname, './src/static/', dir)
+}
 
 //路径定义
 var srcDir = path.resolve(process.cwd(), 'src');
+//每个html对应一个同名的js
 //多入口文件
-var entries = function() {
+/*var entries = function() {
   var jsDir = path.resolve(__dirname, srcDir+'/static/js/')
+  console.log(jsDir);
   var entryFiles = glob.sync(jsDir + '/*.{js,jsx}')
+  console.log(entryFiles);
   var map = {};
   for (var i = 0; i < entryFiles.length; i++) {
     var filePath = entryFiles[i];
     var filename = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
     map[filename] = filePath;
   }
+  console.log(map);
+  return map;
+}*/
+//如果js文件夹里有其他js,避免打包多余的js
+function getNameFn(st) {
+  return st.substring(st.lastIndexOf('\/') + 1, st.lastIndexOf('.'));
+}
+var entryHtml = glob.sync(srcDir + '/*.html');
+var entries = function() {
+  var jsDir = path.resolve(__dirname, srcDir+'/static/js/')
+  var entryFiles = glob.sync(jsDir + '/*.{js,jsx}')
+  var map = {};
+  for (var i = 0; i < entryFiles.length; i++) {
+    var filePath_js = entryFiles[i];
+    var filename_js = getNameFn(filePath_js);
+    for (var j = 0; j < entryHtml.length; j++) {
+      var filePath = entryHtml[j];
+      var filename = getNameFn(filePath);
+      if (filename == filename_js) {
+        map[filename] = filePath_js;
+      }
+    }
+  }
   return map;
 }
+
 //多个html
 var html_plugins = function () {
-  var entryHtml = glob.sync(srcDir + '/*.html')
   var r = []
   var entriesFiles = entries()
   for (var i = 0; i < entryHtml.length; i++) {
       var filePath = entryHtml[i];
-      var filename = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
+      var filename = getNameFn(filePath);
       var conf = {
           template: '' + filePath,
           filename: filename + '.html'
       }
       if (filename in entriesFiles) {
           conf.inject = 'body'
-          conf.chunks = [filename]
+          conf.chunks = ['vendor', filename]
       }
       r.push(new HtmlWebpackPlugin(conf))
   }
@@ -44,7 +76,8 @@ var plugins = [
   new webpack.HotModuleReplacementPlugin(), //模块热替换
   new ExtractTextPlugin(
     {
-      filename: 'css/[name].[contenthash].css',
+      filename: 'static/css/[name].[contenthash].css',
+      //filename: '[name].[contenthash].css',
       disable: false
     }
   ),
@@ -54,11 +87,24 @@ var plugins = [
     "windows.jQuery": "jquery"
   })
 ];
+plugins.push(new CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: Infinity
+}));
 module.exports = {
-  entry: entries(),
+  //entry: entries(),
+  entry: Object.assign(entries(), {
+    'vendor': ['doT']
+  }),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].[hash].js'
+    filename: 'static/js/[name].[hash].js'
+  },
+  resolve: {
+    extensions: ['.js','.css','json'],
+    alias: {
+      'doT': resolve('lib/doT.min.js')
+    }
   },
   module: {
     rules: [
@@ -77,7 +123,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            {loader:'css-loader', options: {url: false}}, //css路径不变(有缺陷)
+            {loader:'css-loader', options: {url: false}}, //css路径不变 (注：css里的图片都写成'../images/xx.jpg'形式)
             {loader:'postcss-loader',options: {
               plugins: [
                 require('postcss-import'),
@@ -109,7 +155,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'images/'
+              outputPath: 'static/images/'
             }
           },
           {

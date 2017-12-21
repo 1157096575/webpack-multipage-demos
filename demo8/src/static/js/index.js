@@ -1,6 +1,8 @@
 import '../css/index.css';
 import Layer from '../components/layer/layer.js';
-import url1 from '../images/bj.jpg'
+//import url1 from '../images/bj.jpg'
+import d from 'doT';
+console.log('doT', d);
 //import $ from 'jquery';
 $("#hello").text('hello');
 $.fn.changeStyle = function(colorStr){
