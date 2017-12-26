@@ -1,0 +1,1 @@
+webpackJsonp([2],{"./src/static/css/demo.css":function(s,exports){},"./src/static/js/demo.js":function(s,exports,c){"use strict";c("./src/static/css/demo.css")}},["./src/static/js/demo.js"]);
