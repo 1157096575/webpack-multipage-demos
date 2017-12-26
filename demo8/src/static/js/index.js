@@ -1,18 +1,19 @@
 import '../css/index.css';
 import Layer from '../components/layer/layer.js';
 //import url1 from '../images/bj.jpg'
-import d from 'doT';
-console.log('doT', d);
+//import d from 'doT';
+//alert('doT', d);
 //import $ from 'jquery';
+console.log(__SiteEnv__.host);
 $("#hello").text('hello');
 $.fn.changeStyle = function(colorStr){
   this.css("color", colorStr);
 }
-$("#hello").changeStyle('blue');
+$("#hello").changeStyle('yellow');
 const App = function () {
   const NUM = 1;
-  console.log(NUM);
-  console.log(Layer);
+  //console.log(NUM);
+  //console.log(Layer);
   var dom = document.getElementById('app');
   var layer = new Layer();
   dom.innerHTML = layer.tpl({

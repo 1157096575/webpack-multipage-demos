@@ -6,6 +6,11 @@ var glob = require('glob');
 var path = require('path');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin; //将公共模块拆出来
 
+let siteEnv = {
+  name: 'pc project',
+  host: 'http://192.168.10.224:7081'
+};
+
 function resolve (dir) {
   return path.join(__dirname, './src/static/', dir)
 }
@@ -85,6 +90,9 @@ var plugins = [
     $: "jquery",
     jQuery: "jquery",
     "windows.jQuery": "jquery"
+  }),
+  new webpack.DefinePlugin({
+    '__SiteEnv__': JSON.stringify(siteEnv)
   })
 ];
 plugins.push(new CommonsChunkPlugin({
@@ -97,8 +105,9 @@ module.exports = {
     'vendor': ['doT']
   }),
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'static/js/[name].[hash].js'
+    path: path.resolve(__dirname, 'dist'), //path通常用来用来存放打包后文件的输出目录
+    filename: 'static/js/[name].[hash].js',
+    publicPath: ""  //publicPath则用来指定资源文件引用的虚拟目录 e.g. publicPath: "/assets/"
   },
   resolve: {
     extensions: ['.js','.css','json'],
@@ -112,12 +121,12 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: path.resolve(__dirname, 'src'),
-        exclude: path.resolve(__dirname, 'node_modules'),
-        query: {
-          presets: ['latest']
-        }
+        exclude: path.resolve(__dirname, 'node_modules')
       },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/},
+      { test: /\.jsx$/, 
+        loader: 'babel-loader', 
+        exclude: /node_modules/
+      },
       {
         test: /\.(less|css|sass)$/,
         use: ExtractTextPlugin.extract({

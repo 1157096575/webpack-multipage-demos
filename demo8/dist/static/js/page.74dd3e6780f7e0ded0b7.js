@@ -1,0 +1,1 @@
+webpackJsonp([1],{"./src/static/css/page.css":function(s,t){},"./src/static/js/page.js":function(s,t,c){"use strict";c("./src/static/css/page.css"),c("./src/static/js/test.js")},"./src/static/js/test.js":function(s,t,c){"use strict"}},["./src/static/js/page.js"]);
