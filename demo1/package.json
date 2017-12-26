@@ -1,12 +1,12 @@
 {
-  "name": "demo4",
+  "name": "webpack-multipage-demo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Isabel",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^0.28.7",
